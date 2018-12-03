@@ -1,6 +1,9 @@
+import os
+import kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
@@ -8,10 +11,12 @@ from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProper
 from kivy.clock import Clock
 from kivy.vector import Vector
 from random import random
+from kivy.uix.stencilview import StencilView
 
 
 
-class PaintWidget(Widget):
+class PaintWidget(StencilView):
+
     def on_touch_down(self, touch):
         color = (0., 0., 1.)
         with self.canvas:
@@ -24,40 +29,48 @@ class PaintWidget(Widget):
     def on_touch_move(self, touch):
         touch.ud['line'].points += [touch.x, touch.y]
 
+class Main(FloatLayout):
+    painter = ObjectProperty(None)
+    def clear_canvas(self, obj):
+        self.painter.canvas.clear()
 
+    def save_png(self, obj):
+        self.painter.export_to_png("untitled.png")
 
 class PredictApp(App):
+
     def build(self):
-        self.parent = Widget()
-        self.painter = PaintWidget()
+        self.parent = Main()
+        # self.painter = Main()
 
-        main_layout = BoxLayout(orientation='horizontal')
-        painter_layout = BoxLayout(orientation='vertical')
-        btn_layout = BoxLayout(orientation='vertical', spacing=10)
-
-        clear_btn = Button(text='Clear')
-        clear_btn.bind(on_release=self.clear_canvas)
-        save_img_btn = Button(text='Save Image')
-        save_img_btn.bind(on_release=self.save_png)
-
-
-        painter_layout.add_widget(self.painter)
-        btn_layout.add_widget(clear_btn)
-        btn_layout.add_widget(save_img_btn)
-
-        # self.parent.add_widget(self.painter)
-
-        main_layout.add_widget(painter_layout)
-        main_layout.add_widget(btn_layout)
-        self.parent.add_widget(main_layout)
-        # self.parent.add_widget(save_img_btn)
+        # main_layout = BoxLayout(orientation='horizontal')
+        # painter_layout = BoxLayout(orientation='vertical')
+        # btn_layout = BoxLayout(orientation='vertical', spacing=10)
+        #
+        # clear_btn = Button(text='Clear')
+        # clear_btn.bind(on_release=self.clear_canvas)
+        # save_img_btn = Button(text='Save Image')
+        # save_img_btn.bind(on_release=self.save_png)
+        #
+        #
+        # painter_layout.add_widget(self.painter)
+        # btn_layout.add_widget(clear_btn)
+        # btn_layout.add_widget(save_img_btn)
+        #
+        # # self.parent.add_widget(self.painter)
+        #
+        # main_layout.add_widget(painter_layout)
+        # main_layout.add_widget(btn_layout)
+        # self.parent.add_widget(main_layout)
+        # # self.parent.add_widget(save_img_btn)
         return self.parent
 
     def clear_canvas(self, obj):
         self.painter.canvas.clear()
 
     def save_png(self, obj):
-        self.parent.export_to_png("untitled.png")
+        self.painter.export_to_png("untitled.png")
 
 if __name__ == '__main__':
+    print(os.path.dirname(kivy.__file__))
     PredictApp().run()

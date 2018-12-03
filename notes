@@ -1,2 +1,7 @@
 Every widget has its own Canvas that you can use to draw
 A Widget is not a Layout
+
+The canvas is a list of instructions that, when executed, draw in a coordinate space
+
+boxlayout controls the size_hint_y when orientation is vertical and size_hint_x when
+orientation is ‘horizontal’
