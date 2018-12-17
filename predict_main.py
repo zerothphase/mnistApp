@@ -27,7 +27,7 @@ class PaintWidget(StencilView):
         touch.ud['line'].points += [touch.x, touch.y]
 
 
-class Main(FloatLayout):
+class Main(BoxLayout):
 
     painter = ObjectProperty(None)
     prediction_display = ObjectProperty(None)
@@ -37,7 +37,7 @@ class Main(FloatLayout):
     # pickle_model.predict(X)
 
     def predict(self, obj):
-        self.prediction_display.text = str()
+        self.prediction_display.text = str(5)
 
     def clear_canvas(self, obj):
         self.painter.canvas.clear()
