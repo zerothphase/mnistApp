@@ -7,12 +7,9 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
-from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
-from kivy.clock import Clock
-from kivy.vector import Vector
-from random import random
+from kivy.properties import NumericProperty, StringProperty, ObjectProperty
 from kivy.uix.stencilview import StencilView
-
+import pickle
 
 
 class PaintWidget(StencilView):
@@ -29,13 +26,26 @@ class PaintWidget(StencilView):
     def on_touch_move(self, touch):
         touch.ud['line'].points += [touch.x, touch.y]
 
+
 class Main(FloatLayout):
+
     painter = ObjectProperty(None)
+    prediction_display = ObjectProperty(None)
+    # with open("pickle_model.pkl", 'rb') as file:
+    #     pickle_model = pickle.load(file)
+
+    # pickle_model.predict(X)
+
+    def predict(self, obj):
+        self.prediction_display.text = str()
+
     def clear_canvas(self, obj):
         self.painter.canvas.clear()
+        self.prediction_display.text = ''
 
     def save_png(self, obj):
         self.painter.export_to_png("untitled.png")
+
 
 class PredictApp(App):
 
