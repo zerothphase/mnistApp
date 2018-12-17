@@ -5,9 +5,10 @@
 
 <Main>
     painter: paint_widget
+    prediction_display: prediction
     canvas.before:
         Color:
-            hsv: 0, 0, 0
+            rgb: 0.8, 0.8, 0.8
         Rectangle:
             # self here refers to the widget i.e BoxLayout
             pos: self.pos
@@ -25,11 +26,19 @@
                 size_hint: 1, 0.5
 
                 PaintWidget:
+                    canvas.before:
+                        Color:
+                            hsv: 0, 0, 0
+                        Rectangle:
+                            # self here refers to the widget i.e BoxLayout
+                            pos: self.pos
+                            size: self.size
                     #pos_hint: {'x': self.width - 300, 'y': self.height - 300}
                     id: paint_widget
                     size_hint: None, None
                     width: 300
                     height: 300 #self.parent.height
+
 
             StackLayout:
                 cols: 1
@@ -42,6 +51,10 @@
                         text: 'Clear'
 
                     Button:
+                        on_release: root.predict(self)
+                        text: 'Predict'
+
+                    Button:
                         on_release: root.save_png(self)
                         text: 'Save'
 
@@ -51,9 +64,11 @@
 
             GridLayout:
                 cols: 1
-                Button:
-                    size_hint: 0.5, 0.5
-                    text: '2nd cols'
+                Label:
+                    text: 'The digit on the image is:'
+                Label:
+                    id: prediction
+                    text: ''
                 Button:
                     size_hint: 0.5, 0.5
                     text: 'Btn'
