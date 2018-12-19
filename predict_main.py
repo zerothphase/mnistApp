@@ -2,14 +2,12 @@ import os
 import kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.widget import Widget
-from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
 from kivy.properties import NumericProperty, StringProperty, ObjectProperty
 from kivy.uix.stencilview import StencilView
 import pickle
+import imageio
+import utilities
 
 
 class PaintWidget(StencilView):
@@ -18,9 +16,9 @@ class PaintWidget(StencilView):
         color = (0., 0., 1.)
         with self.canvas:
             Color(*color, mode='hsv')
-            d = 30.
+            d = 24.
             Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
-            touch.ud['line'] = Line(points=(touch.x, touch.y), width=15)
+            touch.ud['line'] = Line(points=(touch.x, touch.y), width=12)
 
     # being called when an existing touch moves
     def on_touch_move(self, touch):
@@ -31,13 +29,18 @@ class Main(BoxLayout):
 
     painter = ObjectProperty(None)
     prediction_display = ObjectProperty(None)
-    # with open("pickle_model.pkl", 'rb') as file:
-    #     pickle_model = pickle.load(file)
+
+    with open("pickle_model.pkl", 'rb') as file:
+        pickle_model = pickle.load(file)
 
     # pickle_model.predict(X)
 
     def predict(self, obj):
-        self.prediction_display.text = str(5)
+        self.painter.export_to_png("tmp.png")
+        im = imageio.imread('tmp.png', as_gray=True)
+        im = utilities.normalize(im)
+        pred = self.pickle_model.predict(im)
+        self.prediction_display.text = str(pred[0])
 
     def clear_canvas(self, obj):
         self.painter.canvas.clear()
