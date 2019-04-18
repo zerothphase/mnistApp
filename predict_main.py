@@ -3,11 +3,13 @@ import kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, Ellipse, Line
-from kivy.properties import NumericProperty, StringProperty, ObjectProperty
+from kivy.properties import ObjectProperty
 from kivy.uix.stencilview import StencilView
 import pickle
 import imageio
 import utilities
+import sklearn
+import sklearn.neural_network
 
 
 class PaintWidget(StencilView):
@@ -33,7 +35,6 @@ class Main(BoxLayout):
     with open("pickle_model.pkl", 'rb') as file:
         pickle_model = pickle.load(file)
 
-    # pickle_model.predict(X)
 
     def predict(self, obj):
         self.painter.export_to_png("tmp.png")
@@ -54,28 +55,6 @@ class PredictApp(App):
 
     def build(self):
         self.parent = Main()
-        # self.painter = Main()
-
-        # main_layout = BoxLayout(orientation='horizontal')
-        # painter_layout = BoxLayout(orientation='vertical')
-        # btn_layout = BoxLayout(orientation='vertical', spacing=10)
-        #
-        # clear_btn = Button(text='Clear')
-        # clear_btn.bind(on_release=self.clear_canvas)
-        # save_img_btn = Button(text='Save Image')
-        # save_img_btn.bind(on_release=self.save_png)
-        #
-        #
-        # painter_layout.add_widget(self.painter)
-        # btn_layout.add_widget(clear_btn)
-        # btn_layout.add_widget(save_img_btn)
-        #
-        # # self.parent.add_widget(self.painter)
-        #
-        # main_layout.add_widget(painter_layout)
-        # main_layout.add_widget(btn_layout)
-        # self.parent.add_widget(main_layout)
-        # # self.parent.add_widget(save_img_btn)
         return self.parent
 
     def clear_canvas(self, obj):
@@ -83,6 +62,7 @@ class PredictApp(App):
 
     def save_png(self, obj):
         self.painter.export_to_png("untitled.png")
+
 
 if __name__ == '__main__':
     print(os.path.dirname(kivy.__file__))
