@@ -32,13 +32,13 @@ class Main(BoxLayout):
     painter = ObjectProperty(None)
     prediction_display = ObjectProperty(None)
 
-    with open("pickle_model.pkl", 'rb') as file:
+    with open("model/pickle_model.pkl", 'rb') as file:
         pickle_model = pickle.load(file)
 
 
     def predict(self, obj):
-        self.painter.export_to_png("tmp.png")
-        im = imageio.imread('tmp.png', as_gray=True)
+        self.painter.export_to_png("tmp/tmp.png")
+        im = imageio.imread('tmp/tmp.png', as_gray=True)
         im = utilities.normalize(im)
         pred = self.pickle_model.predict(im)
         self.prediction_display.text = str(pred[0])

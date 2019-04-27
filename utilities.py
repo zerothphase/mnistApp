@@ -5,7 +5,7 @@ from scipy.misc import imresize
 
 
 def normalize(array):
-    with open('X_mean.pkl', 'rb') as file:
+    with open('model/X_mean.pkl', 'rb') as file:
         pickle_X_mean = pickle.load(file)
     X = imresize(array, (28, 28), interp='cubic').astype(float).reshape(1, 784)
     X -= pickle_X_mean
