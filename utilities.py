@@ -8,10 +8,7 @@ def normalize(array):
     """
     Resize and normalize the image array. Normalized array has a range of (0,1)
     """
-    with open(MEAN_PATH, 'rb') as file:
-        pickle_X_mean = pickle.load(file)
     X = imresize(array, (28, 28), interp='cubic').astype(float).reshape(1, 784)
-    X -= pickle_X_mean
     X /= 255
     return X
 
