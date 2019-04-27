@@ -10,7 +10,7 @@ import imageio
 import utilities
 import sklearn
 import sklearn.neural_network
-
+from settings import *
 
 class PaintWidget(StencilView):
     """
@@ -36,7 +36,7 @@ class Main(BoxLayout):
     painter = ObjectProperty(None)
     prediction_display = ObjectProperty(None)
 
-    with open("model/pickle_model.pkl", 'rb') as file:
+    with open(MODEL_PATH, 'rb') as file:
         pickle_model = pickle.load(file)
 
 
@@ -45,8 +45,8 @@ class Main(BoxLayout):
         Make prediction on the image drawn on the PaintWidget and show
         prediction.
         """
-        self.painter.export_to_png("tmp/tmp.png")
-        im = imageio.imread('tmp/tmp.png', as_gray=True)
+        self.painter.export_to_png(str(TMP_IMG_PATH))
+        im = imageio.imread(str(TMP_IMG_PATH), as_gray=True)
         im = utilities.normalize(im)
         pred = self.pickle_model.predict(im)
         self.prediction_display.text = str(pred[0])
