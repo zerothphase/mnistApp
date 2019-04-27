@@ -13,7 +13,9 @@ import sklearn.neural_network
 
 
 class PaintWidget(StencilView):
-
+    """
+    Canvas for user to draw
+    """
     def on_touch_down(self, touch):
         color = (0., 0., 1.)
         with self.canvas:
@@ -28,7 +30,9 @@ class PaintWidget(StencilView):
 
 
 class Main(BoxLayout):
-
+    """
+    Main window
+    """
     painter = ObjectProperty(None)
     prediction_display = ObjectProperty(None)
 
@@ -37,6 +41,10 @@ class Main(BoxLayout):
 
 
     def predict(self, obj):
+        """
+        Make prediction on the image drawn on the PaintWidget and show
+        prediction.
+        """
         self.painter.export_to_png("tmp/tmp.png")
         im = imageio.imread('tmp/tmp.png', as_gray=True)
         im = utilities.normalize(im)
@@ -44,11 +52,11 @@ class Main(BoxLayout):
         self.prediction_display.text = str(pred[0])
 
     def clear_canvas(self, obj):
+        """
+        Clear the PaintWidget
+        """
         self.painter.canvas.clear()
         self.prediction_display.text = ''
-
-    def save_png(self, obj):
-        self.painter.export_to_png("untitled.png")
 
 
 class PredictApp(App):
@@ -56,12 +64,6 @@ class PredictApp(App):
     def build(self):
         self.parent = Main()
         return self.parent
-
-    def clear_canvas(self, obj):
-        self.painter.canvas.clear()
-
-    def save_png(self, obj):
-        self.painter.export_to_png("untitled.png")
 
 
 if __name__ == '__main__':
