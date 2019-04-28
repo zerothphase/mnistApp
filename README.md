@@ -1,5 +1,5 @@
 # mnistApp
-A simple digit recognizer app. 
+A simple digit recognition desktop app. 
 
 ## Introduction
 The objective of this project was to learn to implement a trained machine learning model into a simple desktop application. 
