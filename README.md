@@ -1,5 +1,7 @@
 # mnistApp
 A simple digit recognition desktop app. 
+ 
+![](demo.gif)
 
 ## Introduction
 The objective of this project was to learn to implement a trained machine learning model into a simple desktop application. 
@@ -32,5 +34,4 @@ On the app:
 3. Click the `Clear` button to clear the canvas.
 
 Note: The model is not very robust because it is a simple multilayer perceptron.
-## Demo 
-![](demo.gif)
+
